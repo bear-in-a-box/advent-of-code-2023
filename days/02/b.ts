@@ -34,8 +34,7 @@ function calculatePower(game: string): number {
 }
 
 function parseLine(line: string) {
-  const [title, game] = line.split(': ', 2)
-  const id = Number(title.split(' ', 2)[1])
+  const [, game] = line.split(': ', 2)
 
   sum += calculatePower(game)
 }
