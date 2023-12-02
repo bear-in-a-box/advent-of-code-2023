@@ -1,0 +1,20 @@
+{
+  "name": "advent-of-code-2023",
+  "scripts": {},
+  "keywords": [
+    "advent-of-code",
+    "aoc",
+    "2023"
+  ],
+  "author": {
+    "name": "Wojciech Tałałaj",
+    "email": "wojtal.pl@gmail.com",
+    "url": "https://github.com/bear-in-a-box"
+  },
+  "license": "WTFPL",
+  "devDependencies": {
+    "@types/node": "^20.10.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  }
+}
