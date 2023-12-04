@@ -11,33 +11,39 @@ const reader = createInterface({
   crlfDelay: Infinity,
 })
 
-const matchesPerGame: number[] = []
-const instances: number[] = []
+const instances = new Map<number, number>()
 
 reader.on('line', parseLine)
-reader.on('close', onGamesParseFinish)
+reader.on('close', printResult)
 
+let game = 0
 function parseLine(line: string) {
+  const matches = countMatches(line)
+  addCurrentCard()
+  copyCards(matches)
+  game++
+}
+
+function countMatches(line: string): number {
   const [, data] = line.split(': ', 2)
   const [winning, mine] = data.split(' | ', 2)
   const test = new Set(winning.split(/\s+/))
   const candidates = mine.split(/\s+/)
-  const matching = candidates.filter((c) => test.has(c))
-  matchesPerGame.push(matching.length)
-  instances.push(1)
+  const matches = candidates.filter((c) => test.has(c)).length
+
+  return matches
 }
 
-function onGamesParseFinish() {
-  copyInstances()
-  printResult()
+function addCurrentCard() {
+  const v = instances.get(game) ?? 0
+  instances.set(game, v + 1)
 }
 
-function copyInstances() {
-  matchesPerGame.forEach((matches, index) => {
-    for (let i = 1; i <= matches; i++) {
-      instances[index + i] += instances[index]
-    }
-  })
+function copyCards(matches: number) {
+  for (let i = 1; i <= matches; i++) {
+    const v = instances.get(game + i) ?? 0
+    instances.set(game + i, v + instances.get(game)!)
+  }
 }
 
 function printResult() {
