@@ -2,7 +2,7 @@ import { createReadStream } from 'fs'
 import { join } from 'path'
 import { createInterface } from 'readline'
 
-import { calculateHistoryValueForLine } from './utils'
+import { calculateHistoryValueForLine } from './a.utils'
 
 const file = join(__dirname, './input.txt')
 
