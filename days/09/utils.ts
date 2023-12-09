@@ -40,7 +40,10 @@ export const runForFile = (
 
   let sum = 0
 
-  reader.on('line', (line) => (sum += calculator(line)))
+  reader.on('line', (line) => {
+    if (!line) return
+    sum += calculator(line)
+  })
   reader.on('close', () => {
     console.log('Sum:', sum)
   })
