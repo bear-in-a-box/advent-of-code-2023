@@ -1,3 +1,7 @@
+import { createReadStream } from 'fs'
+import { join } from 'path'
+import { createInterface } from 'readline'
+
 export const getHistoryFromLine = (line: string) => line.split(' ').map(Number)
 
 const calculateDiff = (step: number[]): number[] =>
@@ -19,4 +23,25 @@ export const generateSequences = (start: number[]): number[][] => {
     }
   }
   return steps
+}
+
+export const runForFile = (
+  fileName: string,
+  calculator: (line: string) => number
+): void => {
+  const file = join(__dirname, `./${fileName}.txt`)
+
+  const reader = createInterface({
+    input: createReadStream(file, {
+      encoding: 'utf8',
+    }),
+    crlfDelay: Infinity,
+  })
+
+  let sum = 0
+
+  reader.on('line', (line) => (sum += calculator(line)))
+  reader.on('close', () => {
+    console.log('Sum:', sum)
+  })
 }
